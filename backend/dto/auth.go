@@ -19,8 +19,15 @@ type EditUserRequest struct {
 	ID          string  `json:"id" validate:"required"`
 	Username    string  `json:"username" validate:"omitempty,min=3,max=25"`
 	Email       string  `json:"email" validate:"omitempty,email"`
-	Password    string  `json:"password,omitempty" validate:"omitempty,passwd"`
 	AvatarURL   *string `json:"avatar_url,omitempty"`
 	DisplayName *string `json:"display_name,omitempty"`
 	About       *string `json:"about,omitempty"`
+}
+
+type ChangePasswordRequest struct {
+	UserID             string `json:"user_id" validate:"required"`
+	OldPassword        string `json:"old_password" validate:"required"`
+	ConfirmOldPassword string `json:"confirm_old_password" validate:"required,eqfield=OldPassword"`
+	NewPassword        string `json:"new_password" validate:"required,passwd"`
+	ConfirmNewPassword string `json:"confirm_new_password" validate:"required,eqfield=NewPassword"`
 }
