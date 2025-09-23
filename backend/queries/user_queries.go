@@ -83,21 +83,12 @@ func GetUserByName(username string) (*models.User, error) {
 }
 
 func EditUser(req *dto.EditUserRequest) (*models.User, error) {
-	var hashedPassword *string
-	if req.Password != "" {
-		hash, err := utils.HashPassword(req.Password)
-		if err != nil {
-			return nil, err
-		}
-		hashedPassword = &hash
-	}
 
 	query := `
         UPDATE users
         SET
             username = COALESCE(NULLIF(:username, ''), username),
             email = COALESCE(NULLIF(:email, ''), email),
-            password_hash = COALESCE(:password_hash, password_hash),
             avatar_url = :avatar_url,
             display_name = :display_name,
             about = :about
@@ -106,13 +97,12 @@ func EditUser(req *dto.EditUserRequest) (*models.User, error) {
     `
 
 	params := map[string]interface{}{
-		"id":            req.ID,
-		"username":      req.Username,
-		"email":         req.Email,
-		"password_hash": hashedPassword,
-		"avatar_url":    req.AvatarURL,
-		"display_name":  req.DisplayName,
-		"about":         req.About,
+		"id":           req.ID,
+		"username":     req.Username,
+		"email":        req.Email,
+		"avatar_url":   req.AvatarURL,
+		"display_name": req.DisplayName,
+		"about":        req.About,
 	}
 
 	var user models.User
