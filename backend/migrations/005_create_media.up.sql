@@ -5,7 +5,7 @@ CREATE TYPE media_type AS ENUM ('image', 'video', 'audio', 'file');
 CREATE TABLE media (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     uploader_id UUID REFERENCES users(id) ON DELETE SET NULL,
-    conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE,
+    chat_id UUID REFERENCES chats(id) ON DELETE CASCADE,
     message_id UUID REFERENCES messages(id) ON DELETE CASCADE,
     url TEXT NOT NULL,
     type media_type NOT NULL,

@@ -4,7 +4,7 @@ CREATE TYPE message_type AS ENUM ('user', 'system')
 -- Create messages table
 CREATE TABLE messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE,
+    chat_id UUID REFERENCES chats(id) ON DELETE CASCADE,
     sender_id UUID REFERENCES users(id) ON DELETE SET NULL,
     content TEXT,
     type message_type NOT NULL DEFAULT 'user',
