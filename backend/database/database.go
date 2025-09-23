@@ -2,10 +2,13 @@ package database
 
 import (
 	"fmt"
+	"log"
 
 	"flutter-chat/config"
 
 	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
@@ -18,11 +21,13 @@ func Connect(cfg *config.Config) error {
 		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName,
 	)
 
+	log.Println("Connecting to database...")
 	db, err := sqlx.Connect("postgres", dsn)
 	if err != nil {
 		return err
 	}
 
+	log.Println("Database connection established.")
 	DB = db
 	return nil
 }
@@ -33,8 +38,9 @@ func RunMigrations(cfg *config.Config) error {
 		cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName,
 	)
 
+	log.Println("Running database migrations...")
 	m, err := migrate.New(
-		"file://backend/database/migrations",
+		"file://database/migrations",
 		dsn,
 	)
 
@@ -46,6 +52,7 @@ func RunMigrations(cfg *config.Config) error {
 		return err
 	}
 
+	log.Println("Database migrations applied successfully.")
 	return nil
 }
 
@@ -55,8 +62,9 @@ func RollbackMigration(cfg *config.Config, steps uint) error {
 		cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName,
 	)
 
+	log.Printf("Rolling back %d migration step(s)...", steps)
 	m, err := migrate.New(
-		"file://backend/database/migrations",
+		"file://database/migrations",
 		dsn,
 	)
 	if err != nil {
@@ -67,5 +75,6 @@ func RollbackMigration(cfg *config.Config, steps uint) error {
 		return err
 	}
 
+	log.Println("Migration rollback completed.")
 	return nil
 }
