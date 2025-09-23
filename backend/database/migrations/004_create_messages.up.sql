@@ -1,5 +1,5 @@
 -- Create enum for message types
-CREATE TYPE message_type AS ENUM ('user', 'system')
+CREATE TYPE message_type AS ENUM ('user', 'system');
 
 -- Create messages table
 CREATE TABLE messages (
@@ -12,4 +12,4 @@ CREATE TABLE messages (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     edited BOOLEAN NOT NULL DEFAULT FALSE,
     deleted BOOLEAN NOT NULL DEFAULT FALSE
-)
+);

@@ -24,7 +24,7 @@ BEGIN
     NEW.updated_at = NOW();
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql
+$$ LANGUAGE plpgsql;
 
 -- Attach trigger to users table
 CREATE TRIGGER trigger_update_user_updated_at

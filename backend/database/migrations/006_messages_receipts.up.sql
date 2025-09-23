@@ -9,7 +9,7 @@ CREATE TABLE messages_receipts (
     status receipt_status NOT NULL DEFAULT 'sent',
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (message_id, user_id)
-)
+);
 
 -- Attach trigger to messages_receipts table
 CREATE TRIGGER trigger_update_messages_receipts_updated_at
