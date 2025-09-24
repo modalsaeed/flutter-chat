@@ -1,10 +1,9 @@
 package dto
 
 type APIResponse struct {
-	Success bool        `json:success`
-	Code    int         `json:"code"`            // HTTP status code (e.g., 200, 400, 401)
-	Data    interface{} `json:"data,omitempty"`  // Present on success
-	Error   string      `json:"error,omitempty"` // Present on error
+	Code  int         `json:"code"`            // HTTP status code (e.g., 200, 400, 401)
+	Data  interface{} `json:"data,omitempty"`  // Present on success
+	Error *ErrorData  `json:"error,omitempty"` // Present on error
 }
 
 type PaginatedData[T any] struct {
@@ -12,4 +11,14 @@ type PaginatedData[T any] struct {
 	Total  int `json:"total"`
 	Limit  int `json:"limit"`
 	Offset int `json:"offset"`
+}
+
+type FieldError struct {
+	Field   string `json:"field"`
+	Message string `json:"message"`
+}
+
+type ErrorData struct {
+	Message string       `json:"message"`
+	Fields  []FieldError `json:"fields,omitempty"`
 }
