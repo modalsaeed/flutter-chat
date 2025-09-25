@@ -39,10 +39,10 @@ func (s *EmailService) SendEmail(to, subject, body string) error {
 	return err
 }
 
-func (s *EmailService) SendVerificationEmail(to string) error {
+func (s *EmailService) SendVerificationEmail(to string) (*string, error) {
 	token, err := utils.GenerateOTP()
 	if err != nil {
-		return fmt.Errorf("Failed to generate OTP: %w", err.Error())
+		return nil, fmt.Errorf("failed to generate OTP: %w", err)
 	}
 
 	subject := "Verify your Email"
@@ -52,13 +52,13 @@ func (s *EmailService) SendVerificationEmail(to string) error {
 	)
 
 	err = s.SendEmail(to, subject, body)
-	return err
+	return &token, err
 }
 
-func (s *EmailService) SendPasswordResetEmail(to string) error {
+func (s *EmailService) SendPasswordResetEmail(to string) (*string, error) {
 	token, err := utils.GenerateOTP()
 	if err != nil {
-		return fmt.Errorf("Failed to generate OTP: %w", err)
+		return nil, fmt.Errorf("failed to generate OTP: %w", err)
 	}
 
 	subject := "Reset Your Password"
@@ -68,5 +68,5 @@ func (s *EmailService) SendPasswordResetEmail(to string) error {
 	)
 
 	err = s.SendEmail(to, subject, body)
-	return err
+	return &token, err
 }
