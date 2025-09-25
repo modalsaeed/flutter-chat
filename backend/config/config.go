@@ -13,7 +13,12 @@ type Config struct {
 	DBUser     string
 	DBPassword string
 	DBName     string
+
 	ServerPort string
+
+	EmailDomain string
+	EmailAPIKey string
+	EmailFrom   string
 }
 
 func Load() *Config {
@@ -23,12 +28,15 @@ func Load() *Config {
 	}
 
 	cfg := &Config{
-		DBHost:     os.Getenv("DB_HOST"),
-		DBPort:     os.Getenv("DB_PORT"),
-		DBUser:     os.Getenv("DB_USER"),
-		DBPassword: os.Getenv("DB_PASSWORD"),
-		DBName:     os.Getenv("DB_NAME"),
-		ServerPort: os.Getenv("SERVER_PORT"),
+		DBHost:      os.Getenv("DB_HOST"),
+		DBPort:      os.Getenv("DB_PORT"),
+		DBUser:      os.Getenv("DB_USER"),
+		DBPassword:  os.Getenv("DB_PASSWORD"),
+		DBName:      os.Getenv("DB_NAME"),
+		ServerPort:  os.Getenv("SERVER_PORT"),
+		EmailDomain: os.Getenv("EMAIL_DOMAIN"),
+		EmailAPIKey: os.Getenv("EMAIL_API_KEY"),
+		EmailFrom:   os.Getenv("EMAIL_FROM"),
 	}
 
 	missing := false
@@ -37,9 +45,12 @@ func Load() *Config {
 		log.Println("Missing required database enviornment variables")
 		missing = true
 	}
-
 	if cfg.ServerPort == "" {
 		log.Println("Missing required server port")
+		missing = true
+	}
+	if cfg.EmailDomain == "" || cfg.EmailAPIKey == "" || cfg.EmailFrom == "" {
+		log.Println("Missing required email enviornment variables")
 		missing = true
 	}
 
