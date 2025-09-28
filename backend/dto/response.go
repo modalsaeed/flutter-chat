@@ -19,6 +19,7 @@ type FieldError struct {
 }
 
 type ErrorData struct {
+	Code    int          `json:"-"`
 	Message string       `json:"message"`
 	Fields  []FieldError `json:"fields,omitempty"`
 }

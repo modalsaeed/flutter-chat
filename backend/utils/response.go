@@ -18,15 +18,13 @@ func RespondSuccess(w http.ResponseWriter, code int, data interface{}) {
 }
 
 // Respond with error (errMsg is a string describing the error)
-func RespondError(w http.ResponseWriter, code int, message string, fields ...dto.FieldError) {
+func RespondError(w http.ResponseWriter, errData *dto.ErrorData) {
+	code := errData.Code
+	if code == 0 {
+		code = http.StatusInternalServerError // Default to 500 if not set
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	errData := &dto.ErrorData{
-		Message: message,
-	}
-	if len(fields) > 0 {
-		errData.Fields = fields
-	}
 	resp := dto.APIResponse{
 		Code:  code,
 		Error: errData,
