@@ -24,10 +24,13 @@ type EditUserRequest struct {
 	About       *string `json:"about,omitempty"`
 }
 
-type ChangePasswordRequest struct {
-	UserID             string `json:"user_id" validate:"required"`
-	OldPassword        string `json:"old_password" validate:"required"`
-	ConfirmOldPassword string `json:"confirm_old_password" validate:"required,eqfield=OldPassword"`
-	NewPassword        string `json:"new_password" validate:"required,passwd"`
-	ConfirmNewPassword string `json:"confirm_new_password" validate:"required,eqfield=NewPassword"`
+type UserResponse struct {
+	ID          string  `json:"id"`
+	Username    string  `json:"username"`
+	Email       string  `json:"email"`
+	AvatarURL   *string `json:"avatar_url,omitempty"`
+	DisplayName *string `json:"display_name,omitempty"`
+	About       *string `json:"about,omitempty"`
+	CreatedAt   string  `json:"created_at"`
+	LastSeen    *string `json:"last_seen,omitempty"`
 }
