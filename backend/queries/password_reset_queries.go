@@ -6,7 +6,7 @@ import (
 	"flutter-chat/models"
 )
 
-func CreatePasswordReset(req *dto.CreatePasswordResetRequest) (*models.PasswordReset, error) {
+func CreatePasswordReset(req *dto.CreatePasswordReset) (*models.PasswordReset, error) {
 	query := `
         INSERT INTO password_resets (user_id, token, expires_at, used)
         VALUES (:user_id, :token, :expires_at, FALSE)
@@ -27,12 +27,12 @@ func CreatePasswordReset(req *dto.CreatePasswordResetRequest) (*models.PasswordR
 	return nil, err
 }
 
-func GetPasswordResetByToken(token string) (*models.PasswordReset, error) {
+func GetPasswordReset(userID, token string) (*models.PasswordReset, error) {
 	var pr models.PasswordReset
 	err := database.DB.Get(&pr, `
         SELECT id, user_id, token, expires_at, used
-        FROM password_resets WHERE token = $1
-    `, token)
+        FROM password_resets WHERE token = $1 AND id = $2
+    `, token, userID)
 	if err != nil {
 		return nil, err
 	}

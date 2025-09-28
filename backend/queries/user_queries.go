@@ -185,3 +185,10 @@ func ReactivateUser(id string) error {
 	_, err := database.DB.Exec(`UPDATE users SET is_active = TRUE WHERE id = $1`, id)
 	return err
 }
+
+func UpdateUserPassword(userID, hashedPassword string) error {
+	_, err := database.DB.Exec(`
+		UPDATE users SET password_hash = $1 WHERE id = $2
+	`, hashedPassword, userID)
+	return err
+}
