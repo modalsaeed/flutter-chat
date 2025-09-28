@@ -11,5 +11,6 @@ type CreateEmailVerificationRequest struct {
 }
 
 type VerifyEmailRequest struct {
-	Token string `json:"token"`
+	Email string `json:"email" validate:"required,email"`
+	Token string `json:"token" validate:"required"`
 }

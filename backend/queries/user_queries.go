@@ -192,3 +192,8 @@ func UpdateUserPassword(userID, hashedPassword string) error {
 	`, hashedPassword, userID)
 	return err
 }
+
+func MarkUserEmailVerified(userID string) error {
+	_, err := database.DB.Exec(`UPDATE users SET email_verified = TRUE WHERE id = $1`, userID)
+	return err
+}

@@ -27,12 +27,12 @@ func CreateEmailVerification(req *dto.CreateEmailVerificationRequest) (*models.E
 	return nil, err
 }
 
-func GetEmailVerificationByToken(token string) (*models.EmailVerification, error) {
+func GetEmailVerification(userID, token string) (*models.EmailVerification, error) {
 	var ev models.EmailVerification
 	err := database.DB.Get(&ev, `
         SELECT id, user_id, token, expires_at, used
-        FROM email_verifications WHERE token = $1
-    `, token)
+        FROM email_verifications WHERE token = $1 AND id = $2
+    `, token, userID)
 	if err != nil {
 		return nil, err
 	}
